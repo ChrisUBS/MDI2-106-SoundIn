@@ -30,7 +30,6 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,10 +47,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.Navigator
 import com.example.mdi2_106_soundin.ui.LoginViewModel
+import com.example.mdi2_106_soundin.ui.UserSessionViewModel
 import com.example.mdi2_106_soundin.ui.theme.MDI2105SoundInTheme
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -177,6 +175,7 @@ fun LoginContent(
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = viewModel(),
+    sessionViewModel: UserSessionViewModel,
     onNavigateToRegister: () -> Unit,
     onLoginSuccess: () -> Unit
 ) {
@@ -216,10 +215,15 @@ fun LoginScreen(
                 val isValid = viewModel.validateAndLogin()
                 scope.launch {
                     if(isValid) {
-//                        snackbarHostState.showSnackbar(
-//                            message = "Welcome to SoundIn",
-//                            duration = SnackbarDuration.Short
-//                        )
+                        sessionViewModel.login(
+                            name = "John Doe",
+                            email = email
+                        )
+                        snackbarHostState.showSnackbar(
+                            message = "Welcome to SoundIn",
+                            actionLabel = "Go",
+                            duration = SnackbarDuration.Short
+                        )
                         onLoginSuccess()
                     } else {
                         snackbarHostState.showSnackbar(

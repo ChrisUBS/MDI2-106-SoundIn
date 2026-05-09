@@ -9,11 +9,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.mdi2_106_soundin.ui.UserSessionViewModel
 import com.example.mdi2_106_soundin.ui.components.BottomNavigationBar
 import com.example.mdi2_106_soundin.ui.navigation.SoundInRoutes
 
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    sessionViewModel: UserSessionViewModel,
+    onLogout: () -> Unit
+) {
     val navController = rememberNavController()
     val currentBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = currentBackStackEntry?.destination?.route
@@ -42,7 +46,10 @@ fun MainScreen() {
         {
             composable(SoundInRoutes.LIBRARY) { LibraryScreen() }
             composable(SoundInRoutes.SEARCH) { SearchScreen() }
-            composable(SoundInRoutes.PROFILE) { ProfileScreen() }
+            composable(SoundInRoutes.PROFILE) { ProfileScreen(
+                sessionViewModel = sessionViewModel,
+                onLogout = onLogout
+            ) }
         } // end of nav host
     } // end scaffold
 }

@@ -4,13 +4,15 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.mdi2_106_soundin.ui.UserSessionViewModel
 import com.example.mdi2_106_soundin.ui.screens.LoginScreen
 import com.example.mdi2_106_soundin.ui.screens.MainScreen
 import com.example.mdi2_106_soundin.ui.screens.RegisterScreen
 
 @Composable
 fun SoundInNavGraph(
-    navController: NavHostController
+    navController: NavHostController,
+    sessionViewModel: UserSessionViewModel
 ) {
     NavHost(
         navController = navController,
@@ -18,6 +20,7 @@ fun SoundInNavGraph(
     ) {
         composable(SoundInRoutes.LOGIN) {
             LoginScreen(
+                sessionViewModel = sessionViewModel,
                 onNavigateToRegister = {
                     navController.navigate(SoundInRoutes.REGISTER)
                 },
@@ -43,7 +46,14 @@ fun SoundInNavGraph(
             )
         } // end register composable
         composable(SoundInRoutes.MAIN) {
-            MainScreen()
+            MainScreen(
+                sessionViewModel = sessionViewModel,
+                onLogout = {
+                    navController.navigate(SoundInRoutes.LOGIN) {
+                        popUpTo(SoundInRoutes.LOGIN) { inclusive = true }
+                    }
+                }
+            )
         } // end main composable
     }
 }
