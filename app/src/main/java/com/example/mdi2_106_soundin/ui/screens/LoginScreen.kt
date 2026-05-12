@@ -217,7 +217,8 @@ fun LoginScreen(
                     if(isValid) {
                         sessionViewModel.login(
                             name = "John Doe",
-                            email = email
+                            email = email,
+                            genre = "Rock"
                         )
                         snackbarHostState.showSnackbar(
                             message = "Welcome to SoundIn",

@@ -33,6 +33,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -55,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mdi2_106_soundin.ui.RegisterViewModel
+import com.example.mdi2_106_soundin.ui.UserSessionViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -324,6 +326,7 @@ fun RegisterContent(
 @Composable
 fun RegisterScreen(
     viewModel: RegisterViewModel = viewModel(),
+    sessionViewModel: UserSessionViewModel,
     onNavigateToLogin: () -> Unit,
     onLoginSuccess: () -> Unit
 ) {
@@ -445,10 +448,22 @@ fun RegisterScreen(
                 val isValid = viewModel.validateAndRegister()
                 scope.launch{
                     if (isValid){
-                        // snackbarHostState.showSnackbar("Account created successfully")
+                        sessionViewModel.login(
+                            name = name,
+                            email = email,
+                            genre = genre
+                        )
+                        snackbarHostState.showSnackbar(
+                            message = "Account created successfully",
+                            actionLabel = "Okay",
+                            duration = SnackbarDuration.Short
+                        )
                         onLoginSuccess()
                     } else{
-                        snackbarHostState.showSnackbar("Please review the marked fields")
+                        snackbarHostState.showSnackbar(
+                            message = "Please review the marked fields",
+                            duration = SnackbarDuration.Short
+                        )
                     }
                 }
             }

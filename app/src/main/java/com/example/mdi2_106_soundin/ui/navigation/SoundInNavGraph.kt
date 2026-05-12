@@ -33,6 +33,7 @@ fun SoundInNavGraph(
         } // end login composable
         composable(SoundInRoutes.REGISTER) {
             RegisterScreen(
+                sessionViewModel = sessionViewModel,
                 onNavigateToLogin = {
                     navController.navigate(SoundInRoutes.LOGIN) {
                         popUpTo(SoundInRoutes.LOGIN) { inclusive = true }
@@ -50,7 +51,10 @@ fun SoundInNavGraph(
                 sessionViewModel = sessionViewModel,
                 onLogout = {
                     navController.navigate(SoundInRoutes.LOGIN) {
-                        popUpTo(SoundInRoutes.LOGIN) { inclusive = true }
+                        popUpTo(navController.graph.id) {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
                     }
                 }
             )

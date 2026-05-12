@@ -37,6 +37,7 @@ fun ProfileScreen(
 ) {
     val userName by sessionViewModel.userName.collectAsStateWithLifecycle()
     val userEmail by sessionViewModel.userEmail.collectAsStateWithLifecycle()
+    val favoriteGenre by sessionViewModel.favoriteGenre.collectAsStateWithLifecycle()
     var showLogoutDialog by remember { mutableStateOf(false) }
 
     if(showLogoutDialog) {
@@ -48,7 +49,7 @@ fun ProfileScreen(
                 TextButton(
                     onClick =  {
                         showLogoutDialog = false
-                        // sessionViewModel.logout()
+                        sessionViewModel.logout()
                         onLogout()
                     }
                 ) {
@@ -95,6 +96,11 @@ fun ProfileScreen(
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         ) // end of text for email
+        Text(
+            text = "I love $favoriteGenre",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        ) // end of text for favorite genre
         Spacer(modifier = Modifier.height(32.dp))
         Button(
              onClick = {
