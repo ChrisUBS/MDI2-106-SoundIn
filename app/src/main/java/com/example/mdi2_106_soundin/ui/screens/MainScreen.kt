@@ -44,7 +44,9 @@ fun MainScreen(
             modifier = Modifier.padding(paddingValues)
         ) // end of nav host arguments
         {
-            composable(SoundInRoutes.LIBRARY) { LibraryScreen() }
+            composable(SoundInRoutes.LIBRARY) { LibraryScreen(
+                onNavigateToPlaylistDetail = {}
+            ) }
             composable(SoundInRoutes.SEARCH) { SearchScreen() }
             composable(SoundInRoutes.PROFILE) { ProfileScreen(
                 sessionViewModel = sessionViewModel,
